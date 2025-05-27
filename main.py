@@ -1,3 +1,10 @@
 from neuralNetwork import neuralNetwork
+from imageOperations import imageSet
+from pathlib import Path
 
-n = neuralNetwork()
+p = Path('data/')
+
+
+i = imageSet(p)
+i.print()
+#n = neuralNetwork()
