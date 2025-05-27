@@ -7,7 +7,7 @@ class imageSet:
             for img in path_to_dataset.iterdir():
                 if img.is_file():
                     img = Image.open(img)
-                    img.thumbnail((50, 50)) 
+                    img = img.resize((50, 50)) 
                     self.images.append(img)
         except IOError:
             pass
