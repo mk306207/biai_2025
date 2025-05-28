@@ -1,5 +1,5 @@
 import numpy as np
-from matplotlib import pyplot as plt
+
 
 class neuralNetwork:
     def __init__(self):
@@ -27,6 +27,39 @@ class neuralNetwork:
         self.A1 = self.ReLU(self.Z1)
         self.Z2 = np.dot(self.A1, self.w2) + self.b2
         self.A2 = self.softmax(self.Z2)
-        print(self.A2)
+        return self.A2
         
+    def crossEntropyLoss(self, y_true, y_pred):
+        m = y_true.shape[0]
+        return -np.sum(y_true * np.log(y_pred + 1e-9)) / m
+    
+    def backwardPropagation(self, X, y_true):
+        m = X.shape[0]
+
+        dZ2 = self.A2 - y_true #just a formula for gradient when using softmax + cross-entropy 
+        dW2 = np.dot(self.A1.T, dZ2) / m #we calculate gradient for both weights and biases
+        db2 = np.sum(dZ2, axis=0, keepdims=True) / m
+
+        dA1 = np.dot(dZ2, self.w2.T)
+        dZ1 = dA1 * self.ReLU_derivative(self.Z1) #same as above, but we must remember that we have called a ReLU func
+        dW1 = np.dot(X.T, dZ1) / m
+        db1 = np.sum(dZ1, axis=0, keepdims=True) / m
+        self.w2 -= self.learningRate * dW2 #we update the values
+        self.b2 -= self.learningRate * db2
+        self.w1 -= self.learningRate * dW1
+        self.b1 -= self.learningRate * db1
         
+    def train(self, X, y_true, epochs=1000):
+        losses = []
+        for epoch in range(epochs):
+            self.forwardPropagation(X)
+            self.backwardPropagation(X, y_true)
+            if epoch % 50 == 0:
+                loss = self.crossEntropyLoss(y_true, self.A2)
+                print(f"Epoch {epoch} - Loss: {loss:.4f}")
+                losses.append((epoch, loss))
+        return losses
+
+    def predict(self, X):
+        self.forwardPropagation(X)
+        return np.argmax(self.A2, axis=1)
