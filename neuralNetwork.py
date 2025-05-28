@@ -5,12 +5,10 @@ class neuralNetwork:
     def __init__(self):
         try:
             self.learningRate = float(input("Please type in learning rate value (FLOAT!!!): "))
-            self.b1 = None
-            self.w1 = None
-            self.b2 = None
-            self.w2 = None
-            self.b3 = None
-            self.w3 = None
+            self.b1 = np.zeros(1,32)
+            self.w1 = np.random.randn(7500,32)*np.sqrt(2.0/7500) #He initialization for ReLU
+            self.b2 = np.zeros(1,3)
+            self.w2 = np.random.randn(32,3)*np.sqrt(1.0/32) # Xavier initialization for softmax
         except ValueError:
             print("Error - learning rate value should be a float datatype.")
             quit()
