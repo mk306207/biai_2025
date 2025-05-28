@@ -6,5 +6,7 @@ p = Path('data/')
 
 
 i = imageSet(p)
-i.print()
+#i.print()
+imagesArray = i.asArray()
+print(imagesArray.shape)
 #n = neuralNetwork()
