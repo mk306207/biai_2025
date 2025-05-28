@@ -9,4 +9,6 @@ i = imageSet(p)
 #i.print()
 imagesArray = i.asArray()
 print(imagesArray.shape)
-#n = neuralNetwork()
+n = neuralNetwork()
+n.forwardPropagation(imagesArray)
+
