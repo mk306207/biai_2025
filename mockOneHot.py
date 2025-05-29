@@ -3,7 +3,7 @@ import pandas as pd
 from PIL import Image
 
 def meanColor(image):
-    img = image.copy().convert("RGB")
+    img = image.copy().convert("RGB") #instead of RGB we must convert it into LAB(???)
     img = img.resize((64, 64))
     pixels = np.array(img)
     pixels = pixels.reshape(-1, 3)
